@@ -1,4 +1,4 @@
-This is a React + Typescript project through which users can search and filter games by genres and platforms.
+This is a React + Typescript project that allows users to search and filter games by genres and platforms.
 
 It makes use of the following extra libraries/packages:
 - Vite
