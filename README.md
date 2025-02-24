@@ -1,12 +1,12 @@
 This is a React + Typescript project through which users can search and filter games by genres and platforms.
 
-It makes use of the folloing extra libraries/packages:
-Vite
-Styles Components
-Chakra UI
-Axios
-React Icons
-React hooks like useState and useEffect
+It makes use of the following extra libraries/packages:
+- Vite
+- Styled Components
+- Chakra UI
+- Axios
+- React Icons
+- React hooks like useState and useEffect
 
 Also, it integrates to RAWG Gaming API (see more at: https://rawg.io/apidocs)
 
