@@ -19,7 +19,7 @@ To have a local copy up and running on your machine, just do the following:
     - Create a subfolder called 'secrets' and cd into it
     - Create a file called rawg-api-key.ts and open it
     - Paste the following content to the rawg-api-key.ts file -> export const RawgApiKey = "YOU_RAWG_API_KEY";
-In the project root folder, run the following command -> npm start [ENTER]
-In this same folder, run the following command -> npm run dev [ENTER]
-Navigate to the address that is informed after running the previous step command
-Have fun!
+- In the project root folder, run the following command -> npm start [ENTER]
+- In this same folder, run the following command -> npm run dev [ENTER]
+- Navigate to the address that is informed after running the previous step command
+- Have fun!
