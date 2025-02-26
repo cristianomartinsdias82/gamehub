@@ -17,10 +17,16 @@ interface Props {
 
 const Sidebar = ({ selectItem }: Props) => {
   const [genres, setGenres] = useState<Genre[]>([]);
+  const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
 
   useEffect(() => {
     GenreDataService.getGenres().request.then((genres) => setGenres(genres));
   }, []);
+
+  const onItemSelected = (itemId: string) => {
+    setSelectedItemId(itemId);
+    selectItem(itemId);
+  };
 
   return (
     <>
@@ -33,7 +39,8 @@ const Sidebar = ({ selectItem }: Props) => {
             text={it.name}
             imageSrc={it.image_background}
             gamesCount={it.games_count}
-            selectItem={selectItem}
+            selectItem={onItemSelected}
+            selected={it.id === selectedItemId}
           />
         ))}
       </Stack>

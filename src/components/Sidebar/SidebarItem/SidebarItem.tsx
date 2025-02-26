@@ -7,9 +7,10 @@ interface Props {
   text: string;
   selectItem: (itemId: string) => void;
   gamesCount: number;
+  selected: boolean;
 }
 
-const SidebarItem = ({ id, imageSrc, text, selectItem }: Props) => {
+const SidebarItem = ({ id, imageSrc, text, selectItem, selected }: Props) => {
   return (
     <HStack width="full" gap="0">
       <Image
@@ -18,9 +19,21 @@ const SidebarItem = ({ id, imageSrc, text, selectItem }: Props) => {
         borderRadius="8px"
         src={imageSrc}
       ></Image>
-      <Button size="sm" variant="plain" onClick={() => selectItem(id)}>
-        {text}
-      </Button>
+      {!selected && (
+        <Button
+          size="sm"
+          fontWeight={selected ? "bolder" : "normal"}
+          variant="plain"
+          onClick={() => selectItem(id)}
+        >
+          {text}
+        </Button>
+      )}
+      {selected && (
+        <Text ml="0.8rem" fontSize="sm" fontWeight="bolder">
+          {text}
+        </Text>
+      )}
     </HStack>
   );
 };
