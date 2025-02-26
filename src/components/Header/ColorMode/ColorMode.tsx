@@ -1,43 +1,28 @@
-import { useEffect, useState } from "react";
-//import { Switch } from "../../ui/switch";
-import { ColorModeButton } from "../../../components/ui/color-mode";
+import { Switch, Text } from "@chakra-ui/react";
 
-// interface Props {
-//   bgColor?: "green" | "red";
-//   initAsChecked?: boolean;
-//   onChecked?: () => void;
-//   onUnchecked?: () => void;
-// }
+import { useColorMode } from "../../ui/color-mode";
 
-const ColorMode = (/*{
-  onChecked,
-  onUnchecked,
-  bgColor = "green",
-  initAsChecked = false,
-}: Props*/) => {
-  // const [isChecked, setChecked] = useState(initAsChecked);
-  // const [firstLoading, setFirstLoading] = useState(true);
+interface Props {
+  bgColor?: string;
+}
 
-  // useEffect(() => {
-  //   if (firstLoading) {
-  //     setFirstLoading(false);
-  //     return;
-  //   }
-
-  //   if (isChecked && onChecked) onChecked();
-
-  //   if (!isChecked && onUnchecked) onUnchecked();
-  // }, [isChecked]);
+const ColorMode = ({ bgColor = "green" }: Props) => {
+  const { colorMode, toggleColorMode } = useColorMode();
 
   return (
-    // <Switch
-    //   checked={isChecked}
-    //   onCheckedChange={() => setChecked(!isChecked)}
-    //   colorPalette={bgColor}
-    // >
-    //   Dark mode
-    // </Switch>
-    <ColorModeButton />
+    <Switch.Root
+      checked={colorMode === "dark"}
+      onCheckedChange={() => toggleColorMode()}
+      colorPalette={bgColor}
+    >
+      <Switch.HiddenInput />
+      <Switch.Control>
+        <Switch.Thumb />
+      </Switch.Control>
+      <Switch.Label>
+        <Text whiteSpace="nowrap">Dark mode</Text>
+      </Switch.Label>
+    </Switch.Root>
   );
 };
 

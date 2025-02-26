@@ -10,18 +10,14 @@ interface Props {
 const Header = ({ searchContent }: Props) => {
   return (
     <Box display="flex" placeItems="center">
-      <Box width="5dvw">
+      <Box width="4dvw">
         <Logo />
       </Box>
-      <Box width="85dvw" placeSelf="center">
+      <Box width="84dvw" px="0.2rem" placeSelf="center">
         <SearchBar onSearch={searchContent} />
       </Box>
       <Box>
-        <ColorMode
-        // initAsChecked={false}
-        // onChecked={() => console.log("checked")}
-        // onUnchecked={() => console.log("unchecked")}
-        />
+        <ColorMode />
       </Box>
     </Box>
   );
