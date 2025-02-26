@@ -8,6 +8,7 @@ import { Title } from "./models/Title";
 import titleDataService, {
   SearchParams,
 } from "./services/titles/TitleDataService";
+import Footer from "./components/Footer/Footer";
 
 function App() {
   const [searchParams, setSearchParams] = useState<SearchParams>({
@@ -53,7 +54,7 @@ function App() {
           <Header searchContent={onTermSearched} />
         </Box>
       </Flex>
-      <Flex mt="0.6rem">
+      <Flex mt="0.6rem" mb="5rem">
         <Box
           pl="0.5rem"
           minWidth="18vw"
@@ -72,7 +73,11 @@ function App() {
       </Flex>
       {
         <Flex position="absolute" bottom="0">
-          <Box height="4rem" width="100vw"></Box>
+          <Flex flexDirection="row" height="4rem" width="100vw" pl="1rem">
+            <Box alignSelf="center">
+              <Footer />
+            </Box>
+          </Flex>
         </Flex>
       }
     </Box>
