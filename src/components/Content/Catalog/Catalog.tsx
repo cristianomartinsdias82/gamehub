@@ -30,7 +30,7 @@ const Catalog = ({ items, isLoading }: Props) => {
           </For>
         </Stack>
       )}
-      {items.length === 0 && <Text>The search returned no results.</Text>}
+      {!isLoading && (items?.length === 0) && <Text>The search returned no results.</Text>}
     </>
   );
 };
