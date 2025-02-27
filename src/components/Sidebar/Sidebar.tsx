@@ -1,16 +1,7 @@
-import styled from "styled-components";
+import { Heading, Stack } from "@chakra-ui/react";
+import { useState } from "react";
 import SidebarItem from "./SidebarItem/SidebarItem";
-import GenreDataService from "../../services/genres/GenreDataService";
-import { useEffect, useState } from "react";
-import { Genre } from "../../models/Genre";
-import { Stack } from "@chakra-ui/react";
 import { Genres } from "../../services/genres/Genres";
-
-const H2 = styled.h2`
-  font-size: 2rem;
-  font-weight: bolder;
-  margin-top: 0.6rem;
-`;
 
 interface Props {
   selectItem: (itemId: string) => void;
@@ -26,7 +17,9 @@ const Sidebar = ({ selectItem }: Props) => {
 
   return (
     <>
-      <H2>Genres</H2>
+      <Heading as="h2" size="3xl" my="1.1rem">
+        Genres
+      </Heading>
       <Stack gap="2">
         {Genres.map((it) => (
           <SidebarItem
