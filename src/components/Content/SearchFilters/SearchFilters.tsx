@@ -64,8 +64,7 @@ const SearchFilters = ({ applySearchFilters }: Props) => {
         <NativeSelect.Field
           onChange={() => {
 
-            if (sortByCtrlRef.current?.value)
-              setSortBySelectedItemId(sortByCtrlRef.current.value);
+            setSortBySelectedItemId(sortByCtrlRef.current!.value);
 
             applySearchFilters(
               platformCtrlRef.current?.value,
