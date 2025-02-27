@@ -4,6 +4,7 @@ import GenreDataService from "../../services/genres/GenreDataService";
 import { useEffect, useState } from "react";
 import { Genre } from "../../models/Genre";
 import { Stack } from "@chakra-ui/react";
+import { Genres } from "../../services/genres/Genres";
 
 const H2 = styled.h2`
   font-size: 2rem;
@@ -16,12 +17,7 @@ interface Props {
 }
 
 const Sidebar = ({ selectItem }: Props) => {
-  const [genres, setGenres] = useState<Genre[]>([]);
   const [selectedItemId, setSelectedItemId] = useState<string | null>(null);
-
-  useEffect(() => {
-    GenreDataService.getGenres().request.then((genres) => setGenres(genres));
-  }, []);
 
   const onItemSelected = (itemId: string) => {
     setSelectedItemId(itemId);
@@ -32,7 +28,7 @@ const Sidebar = ({ selectItem }: Props) => {
     <>
       <H2>Genres</H2>
       <Stack gap="2">
-        {genres.map((it) => (
+        {Genres.map((it) => (
           <SidebarItem
             key={it.id}
             id={it.id}

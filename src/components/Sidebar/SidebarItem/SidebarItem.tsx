@@ -1,16 +1,23 @@
-import { Box, Button, HStack, Image, Text } from "@chakra-ui/react";
+import { Button, HStack, Image, Text } from "@chakra-ui/react";
 import "./SidebarItem.css";
 
 interface Props {
   id: string;
   imageSrc: string;
   text: string;
-  selectItem: (itemId: string) => void;
   gamesCount: number;
   selected: boolean;
+  selectItem: (itemId: string) => void;
 }
 
-const SidebarItem = ({ id, imageSrc, text, selectItem, selected }: Props) => {
+const SidebarItem = ({
+  id,
+  imageSrc,
+  text,
+  gamesCount,
+  selected,
+  selectItem,
+}: Props) => {
   return (
     <HStack width="full" gap="0">
       <Image
@@ -26,12 +33,14 @@ const SidebarItem = ({ id, imageSrc, text, selectItem, selected }: Props) => {
           variant="plain"
           onClick={() => selectItem(id)}
         >
-          {text}
+          <Text>
+            {text} ({gamesCount})
+          </Text>
         </Button>
       )}
       {selected && (
-        <Text ml="0.8rem" fontSize="sm" fontWeight="bolder">
-          {text}
+        <Text ml="0.6rem" fontSize="sm" fontWeight="bolder">
+          {text} ({gamesCount})
         </Text>
       )}
     </HStack>
