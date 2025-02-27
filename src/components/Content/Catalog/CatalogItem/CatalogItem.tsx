@@ -3,41 +3,13 @@ import { Badge, Box, Card, Flex, Image, Text } from "@chakra-ui/react";
 import { Title } from "../../../../models/Title";
 import PlatformIcons from "./PlatformIcon/PlatformIcons";
 import { getOptimizedImageUrl } from "../../../../services/getOptimizedImageUrl";
+import Rating from "./Rating/Rating";
 
 interface Props {
   item: Title;
 }
 
 const CatalogItem = ({ item }: Props) => {
-  const getRatingThumbnail = (rating: string) => {
-    let thumb = "";
-
-    switch (rating.trim().toLowerCase()) {
-      case "exceptional":
-        thumb = "bulls-eye";
-        break;
-      case "recommended":
-        thumb = "thumbs-up";
-        break;
-      case "meh":
-      case "skip":
-        thumb = "meh";
-        break;
-    }
-
-    if (thumb === "") return <></>;
-
-    return (
-      <Image
-        width="2rem"
-        height="2rem"
-        key={rating}
-        alt={rating}
-        src={`src/assets/${thumb}.webp`}
-      ></Image>
-    );
-  };
-
   return (
     <Card.Root width="xs" key={item.id} overflow="hidden">
       <Image
@@ -69,7 +41,9 @@ const CatalogItem = ({ item }: Props) => {
             {item.name}
           </Text>
         </Flex>
-        <Flex>{getRatingThumbnail(item.rating)}</Flex>
+        <Flex>
+          <Rating rating={item.rating} />
+        </Flex>
       </Card.Body>
     </Card.Root>
   );
