@@ -2,6 +2,7 @@ import { Badge, Box, Card, Flex, Image, Text } from "@chakra-ui/react";
 
 import { Title } from "../../../../models/Title";
 import PlatformIcons from "./PlatformIcon/PlatformIcons";
+import { getOptimizedImageUrl } from "../../../../services/getOptimizedImageUrl";
 
 interface Props {
   item: Title;
@@ -43,13 +44,13 @@ const CatalogItem = ({ item }: Props) => {
         width="100%"
         maxWidth="340px"
         height="250px"
-        src={item.background_image}
+        src={getOptimizedImageUrl(item.background_image)}
         alt={item.name}
       />
       <Card.Body gap="2">
         <Flex justify="space-between">
           <Box>
-            <PlatformIcons platforms={item.platforms} />            
+            <PlatformIcons platforms={item.platforms} />
           </Box>
           <Box>
             <Badge bg={{ base: "green.700" }}>
