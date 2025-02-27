@@ -41,9 +41,11 @@ const SearchBar = ({
 
   return (
     <>
-      <HStack rounded="full" width="full" px="0.4rem">
+      <HStack width="full" px="0.4rem">
         <InputGroup flex="1" startElement={<LuSearch />}>
           <Input
+            borderRadius={20}
+            variant="filled"
             value={searchTerm}
             onChange={onChange}
             placeholder="Search games..."
