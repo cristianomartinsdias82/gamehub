@@ -135,4 +135,4 @@ export const Genres: Genre[] =
           "games_count": 59021,
           "image_background": getOptimizedImageUrl("https://media.rawg.io/media/games/55e/55ee6432ac2bf224610fa17e4c652107.jpg")      
       }
-  ];
+  ].slice();

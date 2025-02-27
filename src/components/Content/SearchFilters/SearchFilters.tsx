@@ -15,7 +15,7 @@ const SearchFilters = ({ applySearchFilters }: Props) => {
   const platformCtrlRef = useRef<HTMLSelectElement | null>(null);
   const sortByCtrlRef = useRef<HTMLSelectElement | null>(null);
 
-  const [sortBySelectedItemId, setSortBySelectedItemId] = useState('');
+  const [sortBySelectedItemId, setSortBySelectedItemId] = useState("");
 
   return (
     <HStack gap="5" width="full">
@@ -30,7 +30,7 @@ const SearchFilters = ({ applySearchFilters }: Props) => {
           ref={platformCtrlRef}
           placeholder="Platforms"
         >
-          <For each={[...Platforms]}>
+          <For each={Platforms}>
             {(it) => (
               <option key={it.id} value={it.id}>
                 {it.name}
@@ -44,20 +44,21 @@ const SearchFilters = ({ applySearchFilters }: Props) => {
       <NativeSelect.Root size="md" maxWidth="200px">
         <NativeSelect.Field
           onChange={() => {
-
             setSortBySelectedItemId(sortByCtrlRef.current!.value);
 
             applySearchFilters(
               platformCtrlRef.current?.value,
               sortByCtrlRef.current?.value
-            )
+            );
           }}
           ref={sortByCtrlRef}
         >
           <For each={[...SortedOrderingOptions]}>
             {(it) => (
               <option key={it.id} value={it.id}>
-                {it.id === sortBySelectedItemId ? `Sort by: ${it.caption}` : it.caption}
+                {it.id === sortBySelectedItemId
+                  ? `Sort by: ${it.caption}`
+                  : it.caption}
               </option>
             )}
           </For>
