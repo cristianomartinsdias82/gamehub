@@ -36,7 +36,7 @@ class TitleDataService extends DataService<Title> {
                 search: searchParams.searchTerm ?? undefined,
                 page: searchParams.pageNumber,
                 page_size: searchParams.pageSize,
-                platforms: searchParams.platformIds?.join(',') ?? null,
+                parent_platforms: searchParams.platformIds?.join(',') ?? null,
                 genres: searchParams.genreIds?.join(',') ?? null,
                 ordering: searchParams.sortColumn ? searchParams.sortColumn : null
               }
@@ -63,7 +63,7 @@ class TitleDataService extends DataService<Title> {
             background_image: it.background_image,
             reviews_text_count: it.reviews_text_count,
             rating: TitleDataService.getMaxRating(it.ratings),
-            platforms: it.platforms?.map<Platform>((pl) => {
+            platforms: it.parent_platforms?.map<Platform>((pl) => {
               return {
                 id: pl.platform.id.toString(),
                 name: pl.platform.name,

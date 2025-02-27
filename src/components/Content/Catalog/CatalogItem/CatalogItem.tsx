@@ -1,7 +1,7 @@
-import { Badge, Box, Card, Flex, HStack, Image, Text } from "@chakra-ui/react";
+import { Badge, Box, Card, Flex, Image, Text } from "@chakra-ui/react";
 
 import { Title } from "../../../../models/Title";
-import PlatformIcon from "./PlatformIcon/PlatformIcon";
+import PlatformIcons from "./PlatformIcon/PlatformIcons";
 
 interface Props {
   item: Title;
@@ -49,11 +49,7 @@ const CatalogItem = ({ item }: Props) => {
       <Card.Body gap="2">
         <Flex justify="space-between">
           <Box>
-            <HStack gap="1">
-              {item.platforms.map((it) => (
-                <PlatformIcon key={it.id} slug={it.slug} />
-              ))}
-            </HStack>
+            <PlatformIcons platforms={item.platforms} />            
           </Box>
           <Box>
             <Badge bg={{ base: "green.700" }}>

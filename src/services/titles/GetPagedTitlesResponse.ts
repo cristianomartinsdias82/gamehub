@@ -24,7 +24,7 @@ interface Game {
   suggestions_count: number
   updated: string
   esrb_rating: EsrbRating
-  platforms: GamingPlatform[]
+  parent_platforms: GamingPlatform[]
 }
 
 interface Rating {

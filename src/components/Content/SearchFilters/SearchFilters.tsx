@@ -1,10 +1,8 @@
 import { For, HStack } from "@chakra-ui/react";
-
 import { NativeSelect } from "@chakra-ui/react";
-import { useEffect, useRef, useState } from "react";
-import platformDataService from "../../../services/platforms/PlatformDataService";
-import { Platform } from "../../../models/Platform";
+import { useRef, useState } from "react";
 import { SortedOrderingOptions } from "../../../services/SortedOrderingOptions";
+import { Platforms } from "../../../services/platforms/Platforms";
 
 interface Props {
   applySearchFilters: (platformId?: string, orderBy?: string) => void;
@@ -18,23 +16,6 @@ const SearchFilters = ({ applySearchFilters }: Props) => {
   const sortByCtrlRef = useRef<HTMLSelectElement | null>(null);
 
   const [sortBySelectedItemId, setSortBySelectedItemId] = useState('');
-  const [platforms, setPlatforms] = useState<Platform[]>([]);
-
-  useEffect(() => {
-    platformDataService
-      .getAllPlatforms()
-      .request.then((response) => response.data.results)
-      .then((results) =>
-        results.map((it) => {
-          return {
-            id: it.id.toString(),
-            name: it.name,
-            slug: it.slug,
-          };
-        })
-      )
-      .then((platforms) => setPlatforms([...platforms]));
-  }, []);
 
   return (
     <HStack gap="5" width="full">
@@ -49,7 +30,7 @@ const SearchFilters = ({ applySearchFilters }: Props) => {
           ref={platformCtrlRef}
           placeholder="Platforms"
         >
-          <For each={[...platforms]}>
+          <For each={[...Platforms]}>
             {(it) => (
               <option key={it.id} value={it.id}>
                 {it.name}

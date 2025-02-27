@@ -9,10 +9,11 @@ interface Props {
 
 const PlatformIcon = ({ slug, color = "gray", size = "1.2rem" }: Props) => {
   const getPlatformElement = (slug: string) => {
-    const platformElem = PlatformsIconsMappings.find((it) => it!.slug === slug);
+    const platformElem = PlatformsIconsMappings.find((it) => it.slug === slug);
 
     if (platformElem?.factory) return platformElem.factory(color, size);
 
+    //Fallback
     return <IoGameControllerSharp size={size} color={color} key={"unknown"} />;
   };
 
