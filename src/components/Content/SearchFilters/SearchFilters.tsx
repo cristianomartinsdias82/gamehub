@@ -17,6 +17,7 @@ const SearchFilters = ({ applySearchFilters }: Props) => {
   const platformCtrlRef = useRef<HTMLSelectElement | null>(null);
   const sortByCtrlRef = useRef<HTMLSelectElement | null>(null);
 
+  const [sortBySelectedItemId, setSortBySelectedItemId] = useState('');
   const [platforms, setPlatforms] = useState<Platform[]>([]);
 
   useEffect(() => {
@@ -61,19 +62,22 @@ const SearchFilters = ({ applySearchFilters }: Props) => {
 
       <NativeSelect.Root size="md" maxWidth="200px">
         <NativeSelect.Field
-          onChange={() =>
+          onChange={() => {
+
+            if (sortByCtrlRef.current?.value)
+              setSortBySelectedItemId(sortByCtrlRef.current.value);
+
             applySearchFilters(
               platformCtrlRef.current?.value,
               sortByCtrlRef.current?.value
             )
-          }
+          }}
           ref={sortByCtrlRef}
-          placeholder="Sort by"
         >
           <For each={[...SortedOrderingOptions]}>
             {(it) => (
               <option key={it.id} value={it.id}>
-                {it.caption}
+                {it.id === sortBySelectedItemId ? `Sort by: ${it.caption}` : it.caption}
               </option>
             )}
           </For>

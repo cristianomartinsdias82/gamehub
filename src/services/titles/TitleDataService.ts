@@ -38,7 +38,7 @@ class TitleDataService extends DataService<Title> {
                 page_size: searchParams.pageSize,
                 platforms: searchParams.platformIds?.join(',') ?? null,
                 genres: searchParams.genreIds?.join(',') ?? null,
-                ordering: searchParams.sortColumn
+                ordering: searchParams.sortColumn ? searchParams.sortColumn : null
               }
             })
             .then(TitleDataService.map)
