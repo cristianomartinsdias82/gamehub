@@ -1,17 +1,31 @@
-import { Text, For, Stack, HStack, Box } from "@chakra-ui/react";
+import { For, Stack, HStack, Box } from "@chakra-ui/react";
 import { Skeleton, SkeletonText } from "../../ui/skeleton";
 import CatalogItem from "./CatalogItem/CatalogItem";
 import { Title } from "../../../models/Title";
 import SearchResultsMessage from "./SearchResultsMessage";
-import { SearchParams } from "../../../services/titles/TitleDataService";
+import { SearchParams } from "../../../common/SearchParams";
+import { Result } from "../../../common/ResultT";
+import ResultPagination from "./ResultPagination";
+import { PaginationParams } from "../../../common/PaginationParams";
 
 interface Props {
-  items: Title[];
-  searchParams: SearchParams,
-  isLoading: boolean;
+  result: Result<Title[]>
+  searchParams: SearchParams
+  isLoading: boolean
+  paginationParams: PaginationParams
+  pageChange: (pageNumber: number) => void
 }
 
-const Catalog = ({ items, searchParams, isLoading }: Props) => {
+const Catalog = ({ result, searchParams, isLoading, pageChange, paginationParams, }: Props) => {
+
+  const getPaginationComponent = () => {
+    return <Box mt="1rem">
+            <ResultPagination
+              paginationParams={paginationParams}
+              pageChange={pageChange} />
+          </Box>;
+  }
+
   return (
     <>
       {isLoading && (
@@ -26,15 +40,20 @@ const Catalog = ({ items, searchParams, isLoading }: Props) => {
           </For>
         </HStack>
       )}
-      {!isLoading && items && (
-        <Stack mt="1rem" gap="6" direction="row" wrap="wrap">
-          <For each={items}>
+      
+      {!isLoading && result.data && (
+        <>
+        {getPaginationComponent()}
+        <Stack mt="1rem" gap="6" direction="row" wrap="wrap">  
+          <For each={result.data}>
             {(item) => <CatalogItem key={item.id} item={item} />}
           </For>
+          
         </Stack>
-      )}
+        {getPaginationComponent()}
+        </>)}
       <Box my="1rem">
-        {!isLoading && <SearchResultsMessage items={items} searchParams={searchParams} />}
+        {!isLoading && <SearchResultsMessage result={result} searchParams={searchParams} />}
       </Box>
     </>
   );

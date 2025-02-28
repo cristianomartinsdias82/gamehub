@@ -1,7 +1,7 @@
 import { Heading } from "@chakra-ui/react";
-import { SearchParams } from "../../../services/titles/TitleDataService";
 import { getPlatformById } from "../../../services/platforms/Platforms";
 import { getGenreById } from "../../../services/genres/Genres";
+import { SearchParams } from "../../../common/SearchParams";
 
 interface Props {
     searchParams: SearchParams

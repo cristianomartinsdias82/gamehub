@@ -1,17 +1,18 @@
 import { Text } from "@chakra-ui/react";
 import { Title } from "../../../models/Title";
-import { SearchParams } from "../../../services/titles/TitleDataService"
+import { SearchParams } from "../../../common/SearchParams";
+import { Result } from "../../../common/ResultT";
 
 interface Props {
     searchParams: SearchParams
-    items?: Title[]
+    result: Result<Title[]>
 }
 
-const SearchResultsMessage = ({ items, searchParams }: Props) => {
+const SearchResultsMessage = ({ result, searchParams }: Props) => {
 
     return <Text>{["The search",
                    searchParams.searchTerm ? `for term '${searchParams.searchTerm}'` : '',
-                   `resulted in ${items?.length ?? 0} match(es).`
+                   `resulted in ${result.itemCount} match(es).`
                   ].join(' ')}</Text>
 }
 

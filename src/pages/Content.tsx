@@ -1,21 +1,26 @@
-import SearchFilters from "../components/Content/SearchFilters/SearchFilters";
-import Catalog from "../components/Content/Catalog/Catalog";
 import { Title } from "../models/Title";
-import { SearchParams } from "../services/titles/TitleDataService";
 import { Box } from "@chakra-ui/react";
+import SearchFilters from "../components/Content/SearchFilters/SearchFilters";
+import { SearchParams } from "../common/SearchParams";
+import Catalog from "../components/Content/Catalog/Catalog";
+import { Result } from "../common/ResultT";
+import { PaginationParams } from "../common/PaginationParams";
 
 interface Props {
-  applySearchFilters: (platformId?: string, orderBy?: string) => void;
-  searchParams: SearchParams,
-  items: Title[];
-  isLoading: boolean;
+  applySearchFilters: (platformId?: string, orderBy?: string) => void
+  searchParams: SearchParams
+  result: Result<Title[]>
+  isLoading: boolean
+  pageChange: (pageNumber: number) => void
+  paginationParams: PaginationParams
 }
 
-const Content = ({ items, isLoading, searchParams, applySearchFilters }: Props) => {
+const Content = ({ result, isLoading, searchParams, applySearchFilters, pageChange, paginationParams }: Props) => {
+
   return (
     <Box>
       <SearchFilters searchParams={searchParams} applySearchFilters={applySearchFilters} />
-      <Catalog items={items} searchParams={searchParams} isLoading={isLoading} />
+      <Catalog paginationParams={paginationParams} result={result} searchParams={searchParams} isLoading={isLoading} pageChange={pageChange} />
     </Box>
   );
 };

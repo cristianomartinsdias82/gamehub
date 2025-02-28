@@ -1,9 +1,9 @@
 import { Badge, Box, Card, Flex, Image, Text } from "@chakra-ui/react";
-
-import { Title } from "../../../../models/Title";
 import PlatformIcons from "./PlatformIcon/PlatformIcons";
 import { getOptimizedImageUrl } from "../../../../services/getOptimizedImageUrl";
+import { Title } from "../../../../models/Title";
 import Rating from "./Rating/Rating";
+import noImage from '../../../../assets/no-image-placeholder.webp'
 
 interface Props {
   item: Title;
@@ -16,7 +16,7 @@ const CatalogItem = ({ item }: Props) => {
         width="100%"
         maxWidth="340px"
         height="250px"
-        src={getOptimizedImageUrl(item.background_image)}
+        src={item.background_image ? getOptimizedImageUrl(item.background_image) : noImage}
         alt={item.name}
       />
       <Card.Body gap="2">

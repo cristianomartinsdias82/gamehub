@@ -1,48 +1,72 @@
 import { Box, Flex } from "@chakra-ui/react";
-import "./App.css";
+import Content from "./pages/Content";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
-import Content from "./pages/Content";
+import Footer from "./components/Footer/Footer";
 import { useEffect, useState } from "react";
 import { Title } from "./models/Title";
-import titleDataService, {
-  SearchParams,
-} from "./services/titles/TitleDataService";
-import Footer from "./components/Footer/Footer";
+import titleDataService from "./services/titles/TitleDataService";
+import { SearchParams } from "./common/SearchParams";
+import { Result } from "./common/ResultT";
+import { PaginationParams } from "./common/PaginationParams";
+import "./App.css";
 
 function App() {
   const [searchParams, setSearchParams] = useState<SearchParams>({
     pageNumber: 1,
-    pageSize: 50,
+    pageSize: 20
+  });
+  const [paginationParams, setPaginationParams] = useState<PaginationParams>({
+    pageNumber: searchParams.pageNumber,
+    pageSize: searchParams.pageSize,
+    itemCount: 0
   });
   const [isLoading, setLoading] = useState(true);
-  const [titles, setTitles] = useState<Title[]>([]);
+  const [result, setResult] = useState<Result<Title[]>>({itemCount: 0, data: []});
 
   const onTermSearched = (searchTerm?: string) => {
-    setSearchParams({ ...searchParams, searchTerm });
+    setPaginationParams({...paginationParams, pageNumber : 1 })
+    setSearchParams({ ...searchParams, searchTerm, pageNumber: 1 });
   };
 
   const onSearchFiltersApplied = (platformId?: string, sortColumn?: string) => {
+    setPaginationParams({...paginationParams, pageNumber : 1 })
     setSearchParams({
       ...searchParams,
       platformIds: !platformId ? undefined : [platformId],
       sortColumn,
+      pageNumber: 1
     });
   };
 
   const onGenreSelected = (genreId: string) => {
+    setPaginationParams({...paginationParams, pageNumber : 1 })
     setSearchParams({
       ...searchParams,
       genreIds: !genreId ? undefined : [genreId],
+      pageNumber: 1
     });
   };
 
+  const onPageChanged = (pageNumber: number) => {
+    setPaginationParams({...paginationParams, pageNumber })
+    setSearchParams({
+      ...searchParams,
+      pageNumber
+    });
+  }
+
   const search = () => {
     setLoading(true);
+
     titleDataService
       .getTitles(searchParams)
-      .request.then((titles) => setTitles([...titles]))
-      .finally(() => setLoading(false));
+      .request
+        .then((result) => {
+          setPaginationParams({...paginationParams, itemCount: result.itemCount})
+          setResult(result);
+        })
+        .finally(() => setLoading(false));
   };
 
   useEffect(() => search(), [searchParams]);
@@ -64,10 +88,12 @@ function App() {
         </Box>
         <Box display={{ lg: "block" }}>
           <Content
-            items={titles}
+            result={result}
             isLoading={isLoading}
             applySearchFilters={onSearchFiltersApplied}
+            pageChange={onPageChanged}
             searchParams={searchParams}
+            paginationParams={paginationParams}
           />
         </Box>
       </Flex>

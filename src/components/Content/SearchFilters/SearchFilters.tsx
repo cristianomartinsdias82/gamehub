@@ -1,10 +1,10 @@
 import { For, HStack, Stack } from "@chakra-ui/react";
 import { NativeSelect } from "@chakra-ui/react";
 import { useRef, useState } from "react";
+import SearchFiltersHeading from "./SearchFiltersHeading";
+import { SearchParams } from "../../../common/SearchParams";
 import { SortedOrderingOptions } from "../../../services/SortedOrderingOptions";
 import { Platforms } from "../../../services/platforms/Platforms";
-import SearchFiltersHeading from "./SearchFiltersHeading";
-import { SearchParams } from "../../../services/titles/TitleDataService";
 
 interface Props {
   applySearchFilters: (platformId?: string, orderBy?: string) => void
