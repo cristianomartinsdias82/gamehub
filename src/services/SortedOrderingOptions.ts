@@ -10,4 +10,4 @@ export const SortedOrderingOptions: OrderingOption[] = [
   { id: '-released', caption: 'Released date' },
   { id: '-metacritic', caption: 'Popularity' },
   { id: '-rating', caption: 'Average rating' }
-];
+].slice();
