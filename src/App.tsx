@@ -63,7 +63,7 @@ function App() {
       .getTitles(searchParams)
       .request
         .then((result) => {
-          setPaginationParams({...paginationParams, itemCount: result.itemCount})
+          setPaginationParams({...paginationParams, itemCount: result.itemCount});
           setResult(result);
         })
         .finally(() => setLoading(false));
