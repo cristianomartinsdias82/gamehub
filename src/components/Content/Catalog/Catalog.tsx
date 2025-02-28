@@ -19,6 +19,10 @@ interface Props {
 const Catalog = ({ result, searchParams, isLoading, pageChange, paginationParams, }: Props) => {
 
   const getPaginationComponent = () => {
+
+    if (result.itemCount === 0)
+      return <></>;
+
     return <Box mt="1rem">
             <ResultPagination
               paginationParams={paginationParams}
