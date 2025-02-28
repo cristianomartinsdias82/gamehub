@@ -1,16 +1,17 @@
-import { For, HStack } from "@chakra-ui/react";
+import { For, HStack, Stack } from "@chakra-ui/react";
 import { NativeSelect } from "@chakra-ui/react";
 import { useRef, useState } from "react";
 import { SortedOrderingOptions } from "../../../services/SortedOrderingOptions";
 import { Platforms } from "../../../services/platforms/Platforms";
+import SearchFiltersHeading from "./SearchFiltersHeading";
+import { SearchParams } from "../../../services/titles/TitleDataService";
 
 interface Props {
-  applySearchFilters: (platformId?: string, orderBy?: string) => void;
+  applySearchFilters: (platformId?: string, orderBy?: string) => void
+  searchParams: SearchParams
 }
 
-const SearchFilters = ({ applySearchFilters }: Props) => {
-  //TODO: create usePlatforms hook
-  //TODO: create useSortingColumns hook
+const SearchFilters = ({ searchParams, applySearchFilters }: Props) => {
 
   const platformCtrlRef = useRef<HTMLSelectElement | null>(null);
   const sortByCtrlRef = useRef<HTMLSelectElement | null>(null);
@@ -18,55 +19,59 @@ const SearchFilters = ({ applySearchFilters }: Props) => {
   const [sortBySelectedItemId, setSortBySelectedItemId] = useState("");
 
   return (
-    <HStack gap="5" width="full">
-      <NativeSelect.Root size="md" maxWidth="200px">
-        <NativeSelect.Field
-          onChange={() =>
-            applySearchFilters(
-              platformCtrlRef.current?.value,
-              sortByCtrlRef.current?.value
-            )
-          }
-          ref={platformCtrlRef}
-          placeholder="Platforms"
-        >
-          <For each={Platforms}>
-            {(it) => (
-              <option key={it.id} value={it.id}>
-                {it.name}
-              </option>
-            )}
-          </For>
-        </NativeSelect.Field>
-        <NativeSelect.Indicator />
-      </NativeSelect.Root>
+    <>
+    <Stack>
+      <SearchFiltersHeading searchParams={searchParams} />
+      <HStack gap="5" width="full">
+        <NativeSelect.Root size="md" maxWidth="200px">
+          <NativeSelect.Field
+            onChange={() =>
+              applySearchFilters(
+                platformCtrlRef.current?.value,
+                sortByCtrlRef.current?.value
+              )
+            }
+            ref={platformCtrlRef}
+            placeholder="Platforms"
+          >
+            <For each={Platforms}>
+              {(it) => (
+                <option key={it.id} value={it.id}>
+                  {it.name}
+                </option>
+              )}
+            </For>
+          </NativeSelect.Field>
+          <NativeSelect.Indicator />
+        </NativeSelect.Root>
 
-      <NativeSelect.Root size="md" maxWidth="200px">
-        <NativeSelect.Field
-          onChange={() => {
-            setSortBySelectedItemId(sortByCtrlRef.current!.value);
+        <NativeSelect.Root size="md" maxWidth="200px">
+          <NativeSelect.Field
+            onChange={() => {
+              setSortBySelectedItemId(sortByCtrlRef.current!.value);
 
-            applySearchFilters(
-              platformCtrlRef.current?.value,
-              sortByCtrlRef.current?.value
-            );
-          }}
-          ref={sortByCtrlRef}
-        >
-          <For each={[...SortedOrderingOptions]}>
-            {(it) => (
-              <option key={it.id} value={it.id}>
-                {it.id === sortBySelectedItemId
-                  ? `Sort by: ${it.caption}`
-                  : it.caption}
-              </option>
-            )}
-          </For>
-        </NativeSelect.Field>
-        <NativeSelect.Indicator />
-      </NativeSelect.Root>
-    </HStack>
-  );
+              applySearchFilters(
+                platformCtrlRef.current?.value,
+                sortByCtrlRef.current?.value
+              );
+            }}
+            ref={sortByCtrlRef}
+          >
+            <For each={SortedOrderingOptions}>
+              {(it) => (
+                <option key={it.id} value={it.id}>
+                  {it.id === sortBySelectedItemId
+                    ? `Sort by: ${it.caption}`
+                    : it.caption}
+                </option>
+              )}
+            </For>
+          </NativeSelect.Field>
+          <NativeSelect.Indicator />
+        </NativeSelect.Root>
+      </HStack>
+    </Stack>
+    </>);
 };
 
 export default SearchFilters;

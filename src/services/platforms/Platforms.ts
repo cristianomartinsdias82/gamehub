@@ -15,5 +15,9 @@ export const Platforms: Platform[] = [
   { id: "167", name: "Genesis", slug: "genesis" },
   { id: "11", name: "SEGA", slug: "sega" },
   { id: "14", name: "Web", slug: "web" },
-  { id: "3", name: "Xbox", slug: "xbox" },
+  { id: "3", name: "Xbox", slug: "xbox" }
 ].slice();
+
+export const getPlatformById = (id: string) => {
+  return Platforms.find(it => it.id === id);
+}

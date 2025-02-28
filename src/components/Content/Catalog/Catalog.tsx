@@ -1,14 +1,17 @@
-import { Text, For, Stack, HStack } from "@chakra-ui/react";
+import { Text, For, Stack, HStack, Box } from "@chakra-ui/react";
 import { Skeleton, SkeletonText } from "../../ui/skeleton";
 import CatalogItem from "./CatalogItem/CatalogItem";
 import { Title } from "../../../models/Title";
+import SearchResultsMessage from "./SearchResultsMessage";
+import { SearchParams } from "../../../services/titles/TitleDataService";
 
 interface Props {
   items: Title[];
+  searchParams: SearchParams,
   isLoading: boolean;
 }
 
-const Catalog = ({ items, isLoading }: Props) => {
+const Catalog = ({ items, searchParams, isLoading }: Props) => {
   return (
     <>
       {isLoading && (
@@ -30,7 +33,9 @@ const Catalog = ({ items, isLoading }: Props) => {
           </For>
         </Stack>
       )}
-      {!isLoading && (items?.length === 0) && <Text>The search returned no results.</Text>}
+      <Box my="1rem">
+        {!isLoading && <SearchResultsMessage items={items} searchParams={searchParams} />}
+      </Box>
     </>
   );
 };

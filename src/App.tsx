@@ -64,10 +64,10 @@ function App() {
         </Box>
         <Box display={{ lg: "block" }}>
           <Content
-            caption="Games"
             items={titles}
             isLoading={isLoading}
             applySearchFilters={onSearchFiltersApplied}
+            searchParams={searchParams}
           />
         </Box>
       </Flex>
