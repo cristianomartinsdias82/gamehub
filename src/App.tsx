@@ -39,7 +39,7 @@ function App() {
     });
   };
 
-  const onGenreSelected = (genreId: string) => {
+  const onGenreSelected = (genreId: string | undefined) => {
     setPaginationParams({...paginationParams, pageNumber : 1 })
     setSearchParams({
       ...searchParams,

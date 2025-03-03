@@ -4,7 +4,7 @@ import SidebarItem from "./SidebarItem/SidebarItem";
 import { Genres } from "../../services/genres/Genres";
 
 interface Props {
-  selectItem: (itemId: string) => void;
+  selectItem: (itemId: string | undefined) => void;
 }
 
 const Sidebar = ({ selectItem }: Props) => {
@@ -12,7 +12,7 @@ const Sidebar = ({ selectItem }: Props) => {
 
   const onItemSelected = (itemId: string) => {
     setSelectedItemId(itemId);
-    selectItem(itemId);
+    selectItem(!itemId || itemId === "0" ? undefined : itemId);
   };
 
   return (

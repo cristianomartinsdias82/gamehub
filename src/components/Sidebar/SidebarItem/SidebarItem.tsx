@@ -18,6 +18,7 @@ const SidebarItem = ({
   selected,
   selectItem,
 }: Props) => {
+
   return (
     <HStack width="full" gap="0">
       <Image
@@ -34,13 +35,13 @@ const SidebarItem = ({
           onClick={() => selectItem(id)}
         >
           <Text>
-            {text} ({gamesCount})
+            {text} {gamesCount > 0 ? (<>({gamesCount})</>) : <></>}
           </Text>
         </Button>
       )}
       {selected && (
         <Text ml="0.6rem" fontSize="sm" fontWeight="bolder">
-          {text} ({gamesCount})
+          {text} {gamesCount > 0 ? (<>({gamesCount})</>) : <></>}
         </Text>
       )}
     </HStack>
