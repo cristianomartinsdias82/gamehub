@@ -1,9 +1,10 @@
-import { Badge, Box, Card, Flex, Image, Text } from "@chakra-ui/react";
+import { Box, Card, Flex, Image, Text } from "@chakra-ui/react";
 import PlatformIcons from "./PlatformIcon/PlatformIcons";
 import { getOptimizedImageUrl } from "../../../../services/getOptimizedImageUrl";
 import { Title } from "../../../../models/Title";
-import Rating from "./Rating/Rating";
-import noImage from '../../../../assets/no-image-placeholder.webp'
+import Rating, { ratings } from "./Rating/Rating";
+import noImage from '../../../../assets/no-image-placeholder.webp';
+import Review from "./Review/Review";
 
 interface Props {
   item: Title;
@@ -25,15 +26,7 @@ const CatalogItem = ({ item }: Props) => {
             <PlatformIcons platforms={item.platforms} />
           </Box>
           <Box>
-            <Badge bg={{ base: "green.700" }}>
-              <Text
-                fontWeight="semibold"
-                color={{ base: "green.200" }}
-                textWrap="wrap"
-              >
-                {item.reviews_text_count}
-              </Text>
-            </Badge>
+            <Review reviewCount={item.reviews_text_count} />
           </Box>
         </Flex>
         <Flex>
@@ -42,7 +35,7 @@ const CatalogItem = ({ item }: Props) => {
           </Text>
         </Flex>
         <Flex>
-          <Rating rating={item.rating} />
+          <Rating rating={item.rating as ratings} />
         </Flex>
       </Card.Body>
     </Card.Root>
