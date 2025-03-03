@@ -8,7 +8,7 @@ interface Props {
   rating: ratings;
 }
 
-type ratings = "exception" | "recommended" | "meh";
+export type ratings = "exceptional" | "recommended" | "meh";
 
 const Rating = ({ rating }: Props) => {
   return (
