@@ -5,7 +5,7 @@ interface Props {
   id: string;
   imageSrc: string;
   text: string;
-  gamesCount: number;
+  gameCount: number;
   selected: boolean;
   selectItem: (itemId: string) => void;
 }
@@ -14,11 +14,10 @@ const SidebarItem = ({
   id,
   imageSrc,
   text,
-  gamesCount,
+  gameCount,
   selected,
   selectItem,
 }: Props) => {
-
   return (
     <HStack width="full" gap="0">
       <Image
@@ -35,13 +34,13 @@ const SidebarItem = ({
           onClick={() => selectItem(id)}
         >
           <Text>
-            {text} {gamesCount > 0 ? (<>({gamesCount})</>) : <></>}
+            {text} {gameCount > 0 ? <>({gameCount})</> : <></>}
           </Text>
         </Button>
       )}
       {selected && (
         <Text ml="0.6rem" fontSize="sm" fontWeight="bolder">
-          {text} {gamesCount > 0 ? (<>({gamesCount})</>) : <></>}
+          {text} {gameCount > 0 ? <>({gameCount})</> : <></>}
         </Text>
       )}
     </HStack>

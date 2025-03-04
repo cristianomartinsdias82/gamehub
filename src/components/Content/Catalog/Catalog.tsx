@@ -1,4 +1,5 @@
-import { For, Stack, HStack, Box } from "@chakra-ui/react";
+import { For, Card, Box } from "@chakra-ui/react";
+import { SimpleGrid } from "@chakra-ui/react";
 import { Skeleton, SkeletonText } from "../../ui/skeleton";
 import CatalogItem from "./CatalogItem/CatalogItem";
 import { Title } from "../../../models/Title";
@@ -7,58 +8,71 @@ import { SearchParams } from "../../../common/SearchParams";
 import { Result } from "../../../common/ResultT";
 import ResultPagination from "./ResultPagination";
 import { PaginationParams } from "../../../common/PaginationParams";
+import CatalogItemContainer from "./CatalogItem/CatalogItemContainer";
 
 interface Props {
-  result: Result<Title[]>
-  searchParams: SearchParams
-  isLoading: boolean
-  paginationParams: PaginationParams
-  pageChange: (pageNumber: number) => void
+  result: Result<Title[]>;
+  searchParams: SearchParams;
+  isLoading: boolean;
+  paginationParams: PaginationParams;
+  pageChange: (pageNumber: number) => void;
 }
 
-const Catalog = ({ result, searchParams, isLoading, pageChange, paginationParams, }: Props) => {
-
-  const getPaginationComponent = () => {
-
-    if (result.itemCount === 0)
-      return <></>;
-
-    return <Box mt="1rem">
-            <ResultPagination
-              paginationParams={paginationParams}
-              pageChange={pageChange} />
-          </Box>;
-  }
-
+const Catalog = ({
+  result,
+  searchParams,
+  isLoading,
+  pageChange,
+  paginationParams,
+}: Props) => {
   return (
     <>
-      {isLoading && (
-        <HStack mt="1rem" gap="6" direction="row" wrap="wrap">
-          <For each={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}>
+      <ResultPagination
+        result={result}
+        isLoading={isLoading}
+        paginationParams={paginationParams}
+        pageChange={pageChange}
+      />
+      <SimpleGrid
+        gap={3}
+        columns={{ sm: 1, md: 2, lg: 3, xl: 5 }}
+        paddingTop="1.3rem"
+      >
+        {isLoading && (
+          <For each={[1, 2, 3, 4, 5, 6]}>
             {(it) => (
-              <Stack key={it}>
-                <Skeleton maxW="xs" height="200px" width="266px" />
-                <SkeletonText maxW="xs" noOfLines={3} gap="2" />
-              </Stack>
+              <CatalogItemContainer key={it}>
+                <Card.Root key={it}>
+                  <Skeleton height="230px"></Skeleton>
+                  <Card.Body>
+                    <SkeletonText />
+                  </Card.Body>
+                </Card.Root>
+              </CatalogItemContainer>
             )}
           </For>
-        </HStack>
-      )}
-      
-      {!isLoading && result.data && (
-        <>
-        {getPaginationComponent()}
-        <Stack mt="1rem" gap="6" direction="row" wrap="wrap">  
+        )}
+        {!isLoading && result.data && (
           <For each={result.data}>
-            {(item) => <CatalogItem key={item.id} item={item} />}
+            {(item) => (
+              <CatalogItemContainer key={item.id}>
+                <CatalogItem item={item} />
+              </CatalogItemContainer>
+            )}
           </For>
-          
-        </Stack>
-        {getPaginationComponent()}
-        </>)}
-      <Box my="1rem">
-        {!isLoading && <SearchResultsMessage result={result} searchParams={searchParams} />}
-      </Box>
+        )}
+      </SimpleGrid>
+      <SearchResultsMessage
+        result={result}
+        isLoading={isLoading}
+        searchParams={searchParams}
+      />
+      <ResultPagination
+        result={result}
+        isLoading={isLoading}
+        paginationParams={paginationParams}
+        pageChange={pageChange}
+      />
     </>
   );
 };

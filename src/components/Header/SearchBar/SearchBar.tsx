@@ -1,7 +1,6 @@
-import { HStack, Input } from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
 import { LuSearch } from "react-icons/lu";
 import { InputGroup } from "../../ui/input-group";
-import "./SearchBar.css";
 import { useEffect, useState } from "react";
 
 interface Props {
@@ -41,17 +40,16 @@ const SearchBar = ({
 
   return (
     <>
-      <HStack width="full" px="0.4rem">
-        <InputGroup flex="1" startElement={<LuSearch />}>
-          <Input
-            borderRadius={20}
-            variant="filled"
-            value={searchTerm}
-            onChange={onChange}
-            placeholder="Search games..."
-          />
-        </InputGroup>
-      </HStack>
+      <InputGroup flex="1" startElement={<LuSearch />}>
+        <Input
+          focusRing="mixed"
+          borderRadius={20}
+          variant="filled"
+          value={searchTerm}
+          onChange={onChange}
+          placeholder="Search games..."
+        />
+      </InputGroup>
     </>
   );
 };

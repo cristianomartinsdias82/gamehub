@@ -1,4 +1,4 @@
-import { Box, Flex } from "@chakra-ui/react";
+import { Box, Flex, Grid, GridItem } from "@chakra-ui/react";
 import Content from "./pages/Content";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
@@ -9,104 +9,108 @@ import titleDataService from "./services/titles/TitleDataService";
 import { SearchParams } from "./common/SearchParams";
 import { Result } from "./common/ResultT";
 import { PaginationParams } from "./common/PaginationParams";
-import "./App.css";
 
 function App() {
   const [searchParams, setSearchParams] = useState<SearchParams>({
     pageNumber: 1,
-    pageSize: 20
+    pageSize: 20,
   });
   const [paginationParams, setPaginationParams] = useState<PaginationParams>({
     pageNumber: searchParams.pageNumber,
     pageSize: searchParams.pageSize,
-    itemCount: 0
+    itemCount: 0,
   });
   const [isLoading, setLoading] = useState(true);
-  const [result, setResult] = useState<Result<Title[]>>({itemCount: 0, data: []});
+  const [result, setResult] = useState<Result<Title[]>>({
+    itemCount: 0,
+    data: [],
+  });
 
   const onTermSearched = (searchTerm?: string) => {
-    setPaginationParams({...paginationParams, pageNumber : 1 })
+    setPaginationParams({ ...paginationParams, pageNumber: 1 });
     setSearchParams({ ...searchParams, searchTerm, pageNumber: 1 });
   };
 
   const onSearchFiltersApplied = (platformId?: string, sortColumn?: string) => {
-    setPaginationParams({...paginationParams, pageNumber : 1 })
+    setPaginationParams({ ...paginationParams, pageNumber: 1 });
     setSearchParams({
       ...searchParams,
       platformIds: !platformId ? undefined : [platformId],
       sortColumn,
-      pageNumber: 1
+      pageNumber: 1,
     });
   };
 
   const onGenreSelected = (genreId: string | undefined) => {
-    setPaginationParams({...paginationParams, pageNumber : 1 })
+    setPaginationParams({ ...paginationParams, pageNumber: 1 });
     setSearchParams({
       ...searchParams,
       genreIds: !genreId ? undefined : [genreId],
-      pageNumber: 1
+      pageNumber: 1,
     });
   };
 
   const onPageChanged = (pageNumber: number) => {
-    setPaginationParams({...paginationParams, pageNumber })
+    setPaginationParams({ ...paginationParams, pageNumber });
     setSearchParams({
       ...searchParams,
-      pageNumber
+      pageNumber,
     });
-  }
+  };
 
   const search = () => {
     setLoading(true);
 
     titleDataService
       .getTitles(searchParams)
-      .request
-        .then((result) => {
-          setPaginationParams({...paginationParams, itemCount: result.itemCount});
-          setResult(result);
-        })
-        .finally(() => setLoading(false));
+      .request.then((result) => {
+        setPaginationParams({
+          ...paginationParams,
+          itemCount: result.itemCount,
+        });
+        setResult(result);
+      })
+      .finally(() => setLoading(false));
   };
 
   useEffect(() => search(), [searchParams]);
 
   return (
-    <Box padding="0.5rem">
-      <Flex>
-        <Box height="4rem">
-          <Header searchContent={onTermSearched} />
-        </Box>
-      </Flex>
-      <Flex mt="0.6rem" mb="5rem">
-        <Box
-          pl="0.5rem"
-          minWidth="18vw"
-          display={{ base: "none", md: "block" }}
-        >
-          <Sidebar selectItem={onGenreSelected} />
-        </Box>
-        <Box display={{ lg: "block" }}>
-          <Content
-            result={result}
-            isLoading={isLoading}
-            applySearchFilters={onSearchFiltersApplied}
-            pageChange={onPageChanged}
-            searchParams={searchParams}
-            paginationParams={paginationParams}
-          />
-        </Box>
-      </Flex>
-      {
-        <Flex position="absolute" bottom="0">
-          <Flex flexDirection="row" height="4rem" width="100vw" pl="1rem">
-            <Box alignSelf="center">
-              <Footer />
-            </Box>
-          </Flex>
+    // <Grid templateAreas={`"nav nav" "aside main" "footer footer"`}>
+    <Grid
+      templateAreas={{
+        base: `"nav" "main" "footer"`, //This is for mobile devices (1 column and 1 nav and main rows only; no aside)
+        lg: `"nav nav" "aside main" "footer footer"`, // Wider than 1024px
+      }}
+      templateColumns={{
+        base: "1fr",
+        lg: "200px 1fr",
+      }}
+    >
+      <GridItem area="nav">
+        <Header searchContent={onTermSearched} />
+      </GridItem>
+      <GridItem area="aside" hideBelow="lg" paddingX="1rem">
+        <Sidebar selectItem={onGenreSelected} />
+      </GridItem>
+      <GridItem area="main" paddingX={3}>
+        <Content
+          result={result}
+          isLoading={isLoading}
+          applySearchFilters={onSearchFiltersApplied}
+          pageChange={onPageChanged}
+          searchParams={searchParams}
+          paginationParams={paginationParams}
+        />
+      </GridItem>
+      <GridItem area="footer">
+        <Flex flexDirection="row" height="4rem" width="100vw" pl="1rem">
+          <Box alignSelf="center">
+            <Footer />
+          </Box>
         </Flex>
-      }
-    </Box>
+      </GridItem>
+    </Grid>
   );
 }
 

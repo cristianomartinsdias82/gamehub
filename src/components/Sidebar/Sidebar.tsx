@@ -1,4 +1,4 @@
-import { Heading, Stack } from "@chakra-ui/react";
+import { Box, Heading, Stack } from "@chakra-ui/react";
 import { useState } from "react";
 import SidebarItem from "./SidebarItem/SidebarItem";
 import { Genres } from "../../services/genres/Genres";
@@ -16,7 +16,7 @@ const Sidebar = ({ selectItem }: Props) => {
   };
 
   return (
-    <>
+    <Box width="224px">
       <Heading as="h2" size="3xl" my="1.1rem">
         Genres
       </Heading>
@@ -27,13 +27,13 @@ const Sidebar = ({ selectItem }: Props) => {
             id={it.id}
             text={it.name}
             imageSrc={it.image_background}
-            gamesCount={it.games_count}
+            gameCount={it.games_count}
             selectItem={onItemSelected}
             selected={it.id === selectedItemId}
           />
         ))}
       </Stack>
-    </>
+    </Box>
   );
 };
 
