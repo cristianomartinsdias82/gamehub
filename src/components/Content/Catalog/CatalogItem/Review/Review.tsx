@@ -1,31 +1,34 @@
 import { Badge, Text } from "@chakra-ui/react";
 
 interface Props {
-  reviewCount: number;
+  metacritic?: number;
 }
 
-const Review = ({ reviewCount }: Props) => {
+const Review = ({ metacritic }: Props) => {
+  if (!metacritic) return <></>;
 
-  const goodEvaluationColorDefinitionRule = () => reviewCount > 25;
+  const positiveScoreColorDefinitionRule = () => metacritic > 25;
 
   const getBagdeBgColor = () => {
-    if (goodEvaluationColorDefinitionRule())
-        return "green.700";
+    if (positiveScoreColorDefinitionRule()) return "green.700";
 
     return "red.700";
-  }
+  };
 
   const getBagdeLabelColor = () => {
-    if (goodEvaluationColorDefinitionRule())
-        return "green.200";
+    if (positiveScoreColorDefinitionRule()) return "green.200";
 
     return "red.200";
-  }
+  };
 
   return (
     <Badge bg={{ base: getBagdeBgColor() }}>
-      <Text fontWeight="semibold" color={{ base: getBagdeLabelColor() }} textWrap="wrap">
-        {reviewCount}
+      <Text
+        fontWeight="semibold"
+        color={{ base: getBagdeLabelColor() }}
+        textWrap="wrap"
+      >
+        {metacritic}
       </Text>
     </Badge>
   );

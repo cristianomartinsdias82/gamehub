@@ -4,7 +4,7 @@ export interface Title {
   id: string;
   name: string;
   background_image: string;
-  reviews_text_count: number;
+  metacritic: number
   rating: string;
   platforms: Platform[];
 }

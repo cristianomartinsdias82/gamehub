@@ -55,7 +55,7 @@ class TitleDataService extends DataService<Title> {
           id: it.id,
           name: it.name,
           background_image: it.background_image,
-          reviews_text_count: it.reviews_text_count,
+          metacritic: it.metacritic,
           rating: TitleDataService.getMaxRating(it.ratings),
           platforms:
             it.parent_platforms?.map<Platform>((pl) => {
