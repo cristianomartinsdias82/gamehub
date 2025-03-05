@@ -5,8 +5,8 @@ import { GetPagedTitlesResponse } from "./GetPagedTitlesResponse";
 import { Title } from "../../models/Title";
 import { Platform } from "../../models/Platform";
 import { Rating } from "../../models/Rating";
-import { SearchParams } from "../../common/SearchParams";
 import { Result } from "../../common/ResultT";
+import { TitleQuery } from "../../hooks/useTitleSearch";
 
 class TitleDataService extends DataService<Title> {
   private static Endpoint = "/games";
@@ -15,7 +15,7 @@ class TitleDataService extends DataService<Title> {
     super(TitleDataService.Endpoint);
   }
 
-  getTitles(searchParams: SearchParams) {
+  getTitles(query: TitleQuery) {
     const cancel = new AbortController();
 
     return {
@@ -23,12 +23,12 @@ class TitleDataService extends DataService<Title> {
         .get<GetPagedTitlesResponse>(this.endpoint, {
           signal: cancel.signal,
           params: {
-            search: searchParams.searchTerm ?? undefined,
-            page: searchParams.pageNumber,
-            page_size: searchParams.pageSize,
-            parent_platforms: searchParams.platformIds?.join(",") ?? null,
-            genres: searchParams.genreIds?.join(",") ?? null,
-            ordering: searchParams.sortColumn ? searchParams.sortColumn : null,
+            search: query.searchTerm,
+            page: query.pageNumber,
+            page_size: query.pageSize,
+            parent_platforms: query.platformIds?.join(",") ?? null,
+            genres: query.genreIds?.join(",") ?? null,
+            ordering: query.sortColumn ? query.sortColumn : null
           },
         })
         .then(TitleDataService.map),

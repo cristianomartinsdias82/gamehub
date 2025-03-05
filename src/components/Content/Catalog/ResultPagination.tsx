@@ -5,31 +5,26 @@ import {
   PaginationPrevTrigger,
   PaginationRoot,
 } from "../../ui/pagination";
-import { PaginationParams } from "../../../common/PaginationParams";
 import { Result } from "../../../common/ResultT";
 import { Title } from "../../../models/Title";
+import { TitleQuery } from "../../../hooks/useTitleSearch";
 
 interface Props {
+  query: TitleQuery;
   result: Result<Title[]>;
   isLoading: boolean;
-  paginationParams: PaginationParams;
   pageChange: (pageNumber: number) => void;
 }
 
-const ResultPagination = ({
-  result,
-  isLoading,
-  paginationParams,
-  pageChange,
-}: Props) => {
+const ResultPagination = ({ result, isLoading, query, pageChange }: Props) => {
   if (isLoading || result.itemCount === 0) return <></>;
 
   return (
     <Box mt="1rem" hideBelow="md" justifyItems="center">
       <PaginationRoot
-        count={paginationParams.itemCount}
-        page={paginationParams.pageNumber}
-        pageSize={paginationParams.pageSize}
+        count={result.itemCount}
+        page={query.pageNumber}
+        pageSize={query.pageSize}
         onPageChange={(e: any) => pageChange(e.page)}
       >
         <HStack>

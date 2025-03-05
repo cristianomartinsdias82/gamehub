@@ -4,33 +4,25 @@ import { Skeleton, SkeletonText } from "../../ui/skeleton";
 import CatalogItem from "./CatalogItem/CatalogItem";
 import { Title } from "../../../models/Title";
 import SearchResultsMessage from "./SearchResultsMessage";
-import { SearchParams } from "../../../common/SearchParams";
 import { Result } from "../../../common/ResultT";
 import ResultPagination from "./ResultPagination";
-import { PaginationParams } from "../../../common/PaginationParams";
 import CatalogItemContainer from "./CatalogItem/CatalogItemContainer";
+import { TitleQuery } from "../../../hooks/useTitleSearch";
 
 interface Props {
+  query: TitleQuery;
   result: Result<Title[]>;
-  searchParams: SearchParams;
   isLoading: boolean;
-  paginationParams: PaginationParams;
   pageChange: (pageNumber: number) => void;
 }
 
-const Catalog = ({
-  result,
-  searchParams,
-  isLoading,
-  pageChange,
-  paginationParams,
-}: Props) => {
+const Catalog = ({ query, result, isLoading, pageChange }: Props) => {
   return (
     <>
       <ResultPagination
         result={result}
         isLoading={isLoading}
-        paginationParams={paginationParams}
+        query={query}
         pageChange={pageChange}
       />
       <SimpleGrid
@@ -65,12 +57,12 @@ const Catalog = ({
       <SearchResultsMessage
         result={result}
         isLoading={isLoading}
-        searchParams={searchParams}
+        query={query}
       />
       <ResultPagination
         result={result}
         isLoading={isLoading}
-        paginationParams={paginationParams}
+        query={query}
         pageChange={pageChange}
       />
     </>

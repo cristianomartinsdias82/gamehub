@@ -1,15 +1,15 @@
 import { Box, Text } from "@chakra-ui/react";
 import { Title } from "../../../models/Title";
-import { SearchParams } from "../../../common/SearchParams";
 import { Result } from "../../../common/ResultT";
+import { TitleQuery } from "../../../hooks/useTitleSearch";
 
 interface Props {
-  searchParams: SearchParams;
+  query: TitleQuery;
   isLoading: boolean;
   result: Result<Title[]>;
 }
 
-const SearchResultsMessage = ({ result, isLoading, searchParams }: Props) => {
+const SearchResultsMessage = ({ result, isLoading, query }: Props) => {
   if (isLoading) return <></>;
 
   return (
@@ -17,9 +17,7 @@ const SearchResultsMessage = ({ result, isLoading, searchParams }: Props) => {
       <Text>
         {[
           "The search",
-          searchParams.searchTerm
-            ? `for term '${searchParams.searchTerm}'`
-            : "",
+          query.searchTerm ? `for term '${query.searchTerm}'` : "",
           `resulted in ${result.itemCount} match(es).`,
         ].join(" ")}
       </Text>

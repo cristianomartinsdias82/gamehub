@@ -1,32 +1,42 @@
 import { Heading } from "@chakra-ui/react";
 import { getPlatformById } from "../../../services/platforms/Platforms";
 import { getGenreById } from "../../../services/genres/Genres";
-import { SearchParams } from "../../../common/SearchParams";
+import { TitleQuery } from "../../../hooks/useTitleSearch";
 
 interface Props {
-    searchParams: SearchParams
+  query: TitleQuery;
 }
 
-const SearchFiltersHeading = ({searchParams}: Props) => {
+const SearchFiltersHeading = ({ query }: Props) => {
+  const searchParamsHasAnyInformedArgument = () => {
+    return (
+      (query.genreIds?.length ?? 0) > 0 ||
+      (query.platformIds?.length ?? 0) > 0 ||
+      (query.searchTerm?.length ?? 0) > 0
+    );
+  };
 
-    const searchParamsHasAnyInformedArgument = () => {
-        return (searchParams.genreIds?.length ?? 0) > 0 ||
-               (searchParams.platformIds?.length ?? 0) > 0 ||
-               (searchParams.searchTerm?.length ?? 0) > 0;
-    }
+  const getCaption = () => {
+    if (!searchParamsHasAnyInformedArgument()) return "Games";
 
-    const getCaption = () => {
+    return [
+      getPlatformById(
+        query.platformIds?.length ?? 0 > 0
+          ? query.platformIds![0].toString()
+          : "-1"
+      )?.name ?? "",
+      getGenreById(
+        query.genreIds?.length ?? 0 > 0 ? query.genreIds![0].toString() : "-1"
+      )?.name ?? "",
+      "Games",
+    ].join(" ");
+  };
 
-        if (!searchParamsHasAnyInformedArgument())
-            return "Games";
-
-        return [getPlatformById((searchParams.platformIds?.length ?? 0 > 0) ? searchParams.platformIds![0].toString() : "-1")?.name ?? '',
-                getGenreById((searchParams.genreIds?.length ?? 0 > 0) ? searchParams.genreIds![0].toString() : "-1")?.name ?? '',
-                'Games']
-                .join(' ');
-    }
-
-    return <Heading as="h2" size="6xl" marginBottom="1.1rem">{getCaption()}</Heading>;
-}
+  return (
+    <Heading as="h2" size="6xl" marginBottom="1.1rem">
+      {getCaption()}
+    </Heading>
+  );
+};
 
 export default SearchFiltersHeading;

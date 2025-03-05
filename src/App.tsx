@@ -3,80 +3,42 @@ import Content from "./pages/Content";
 import Header from "./components/Header/Header";
 import Sidebar from "./components/Sidebar/Sidebar";
 import Footer from "./components/Footer/Footer";
-import { useEffect, useState } from "react";
-import { Title } from "./models/Title";
-import titleDataService from "./services/titles/TitleDataService";
-import { SearchParams } from "./common/SearchParams";
-import { Result } from "./common/ResultT";
-import { PaginationParams } from "./common/PaginationParams";
+import Error from "./components/Content/Error/Error";
+import useTitleSearch from "./hooks/useTitleSearch";
 
 function App() {
-  const [searchParams, setSearchParams] = useState<SearchParams>({
-    pageNumber: 1,
-    pageSize: 20,
-  });
-  const [paginationParams, setPaginationParams] = useState<PaginationParams>({
-    pageNumber: searchParams.pageNumber,
-    pageSize: searchParams.pageSize,
-    itemCount: 0,
-  });
-  const [isLoading, setLoading] = useState(true);
-  const [result, setResult] = useState<Result<Title[]>>({
-    itemCount: 0,
-    data: [],
-  });
+  const { isLoading, titlesSearchResult, titleQuery, setTitleQuery, error } =
+    useTitleSearch(); //React my custom Hook ("Hook: a volta do capitão gancho.")
 
   const onTermSearched = (searchTerm?: string) => {
-    setPaginationParams({ ...paginationParams, pageNumber: 1 });
-    setSearchParams({ ...searchParams, searchTerm, pageNumber: 1 });
+    setTitleQuery({ ...titleQuery, pageNumber: 1, searchTerm: searchTerm });
   };
 
   const onSearchFiltersApplied = (platformId?: string, sortColumn?: string) => {
-    setPaginationParams({ ...paginationParams, pageNumber: 1 });
-    setSearchParams({
-      ...searchParams,
-      platformIds: !platformId ? undefined : [platformId],
-      sortColumn,
+    setTitleQuery({
+      ...titleQuery,
       pageNumber: 1,
+      platformIds: platformId ? [platformId] : undefined,
+      sortColumn,
     });
   };
 
   const onGenreSelected = (genreId: string | undefined) => {
-    setPaginationParams({ ...paginationParams, pageNumber: 1 });
-    setSearchParams({
-      ...searchParams,
-      genreIds: !genreId ? undefined : [genreId],
+    setTitleQuery({
+      ...titleQuery,
       pageNumber: 1,
+      genreIds: genreId ? [genreId] : undefined,
     });
   };
 
   const onPageChanged = (pageNumber: number) => {
-    setPaginationParams({ ...paginationParams, pageNumber });
-    setSearchParams({
-      ...searchParams,
+    setTitleQuery({
+      ...titleQuery,
       pageNumber,
     });
   };
 
-  const search = () => {
-    setLoading(true);
-
-    titleDataService
-      .getTitles(searchParams)
-      .request.then((result) => {
-        setPaginationParams({
-          ...paginationParams,
-          itemCount: result.itemCount,
-        });
-        setResult(result);
-      })
-      .finally(() => setLoading(false));
-  };
-
-  useEffect(() => search(), [searchParams]);
-
   return (
-    // <Grid templateAreas={`"nav nav" "aside main" "footer footer"`}>
     <Grid
       templateAreas={{
         base: `"nav" "main" "footer"`, //This is for mobile devices (1 column and 1 nav and main rows only; no aside)
@@ -95,13 +57,14 @@ function App() {
       </GridItem>
       <GridItem area="main" paddingX={3}>
         <Content
-          result={result}
+          result={titlesSearchResult}
           isLoading={isLoading}
           applySearchFilters={onSearchFiltersApplied}
           pageChange={onPageChanged}
-          searchParams={searchParams}
-          paginationParams={paginationParams}
+          query={titleQuery}
+          error={error}
         />
+        <Error error={error} />
       </GridItem>
       <GridItem area="footer">
         <Flex flexDirection="row" height="4rem" width="100vw" pl="1rem">

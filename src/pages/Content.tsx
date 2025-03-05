@@ -5,22 +5,47 @@ import { SearchParams } from "../common/SearchParams";
 import Catalog from "../components/Content/Catalog/Catalog";
 import { Result } from "../common/ResultT";
 import { PaginationParams } from "../common/PaginationParams";
+import { TitleQuery } from "../hooks/useTitleSearch";
 
 interface Props {
-  applySearchFilters: (platformId?: string, orderBy?: string) => void
-  searchParams: SearchParams
-  result: Result<Title[]>
-  isLoading: boolean
-  pageChange: (pageNumber: number) => void
-  paginationParams: PaginationParams
+  result: Result<Title[]>;
+  query: TitleQuery;
+  isLoading: boolean;
+  applySearchFilters: (platformId?: string, orderBy?: string) => void;
+  pageChange: (pageNumber: number) => void;
+  //paginationParams: PaginationParams
+  //searchParams: SearchParams
+  error: string;
 }
 
-const Content = ({ result, isLoading, searchParams, applySearchFilters, pageChange, paginationParams }: Props) => {
+const Content = ({
+  result,
+  query,
+  isLoading,
+  applySearchFilters,
+  pageChange,
+  error,
+}: //searchParams,
+//paginationParams,
+
+Props) => {
+  if (error) return <></>;
 
   return (
     <Box>
-      <SearchFilters searchParams={searchParams} applySearchFilters={applySearchFilters} />
-      <Catalog paginationParams={paginationParams} result={result} searchParams={searchParams} isLoading={isLoading} pageChange={pageChange} />
+      <SearchFilters
+        //searchParams={searchParams}
+        query={query}
+        applySearchFilters={applySearchFilters}
+      />
+      <Catalog
+        query={query}
+        result={result}
+        isLoading={isLoading}
+        // searchParams={searchParams}
+        // paginationParams={paginationParams}
+        pageChange={pageChange}
+      />
     </Box>
   );
 };
